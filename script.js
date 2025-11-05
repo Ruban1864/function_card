@@ -60,12 +60,12 @@ btn.addEventListener('click', () => {
   }
 });
 
-// 🌸 Mobile Tap Zoom + Cinematic Blur Effect
+// 🌸 Mobile Tap Zoom + Cinematic Rotation + Blur
 const photo = document.getElementById('photo');
 const overlay = document.getElementById('photo-overlay');
 let isZoomed = false;
 
-// Works for both desktop (click) and mobile (touch)
+// Toggle zoom and blur
 photo.addEventListener('click', () => {
   isZoomed = !isZoomed;
   if (isZoomed) {
@@ -77,10 +77,11 @@ photo.addEventListener('click', () => {
   }
 });
 
-// Close zoom if background is tapped
+// Tap background to close
 overlay.addEventListener('click', () => {
   photo.classList.remove('active');
   overlay.classList.remove('active');
   isZoomed = false;
 });
+
 

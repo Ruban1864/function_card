@@ -117,39 +117,45 @@ body {
   padding-top: 30px;
   padding-bottom: 40px;
   position: relative;
-  z-index: 2;
+  z-index: 5; /* keep above flowers canvas */
+  text-align: center;
 }
 
-/* Base Image */
+/* Frame Container */
 .photo-frame {
   display: inline-block;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 50%;
 }
 
+/* Base Image */
 .photo-frame img {
   max-width: 220px;
   border: 8px solid #ffe680;
   border-radius: 50%;
   object-fit: cover;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-  z-index: 3;
+  transition: all 0.6s ease;
+  z-index: 10;
   position: relative;
+  cursor: pointer;
 }
 
-/* Hover Zoom (Desktop) */
-.photo-frame img:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 25px rgba(255, 204, 0, 0.6), 0 0 10px rgba(255, 204, 0, 0.3);
-  border-color: #ffcc00;
+/* 🖥️ Hover Zoom (Desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .photo-frame img:hover {
+    transform: scale(1.18) rotate(3deg);
+    box-shadow: 0 0 35px rgba(255, 204, 0, 0.6), 0 0 15px rgba(255, 204, 0, 0.3);
+    border-color: #ffcc00;
+  }
 }
 
-/* Active (Zoomed) Image */
+/* 📱 Tap Zoom (Mobile Active) */
 .photo-frame img.active {
-  transform: scale(1.4);
-  box-shadow: 0 0 40px rgba(255, 204, 0, 0.7), 0 0 15px rgba(255, 204, 0, 0.4);
+  transform: scale(1.35) rotate(360deg);
+  box-shadow: 0 0 45px rgba(255, 204, 0, 0.8), 0 0 20px rgba(255, 204, 0, 0.4);
   border-color: #ffcc00;
+  animation: spinPhoto 12s linear infinite, softGlow 4s ease-in-out infinite;
 }
 
 /* 🌸 Background Blur Overlay */
@@ -160,11 +166,11 @@ body {
   width: 100vw;
   height: 100vh;
   background: rgba(255, 248, 220, 0.3);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
-  z-index: 1;
+  z-index: 4;
 }
 
 /* Show overlay when active */
@@ -173,16 +179,18 @@ body {
   pointer-events: all;
 }
 
-/* Gentle Floating Animation */
-@keyframes floatEffect {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-.photo-frame img {
-  animation: floatEffect 6s ease-in-out infinite;
+/* ✨ Glow and Spin Animations */
+@keyframes softGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 204, 0, 0.6); }
 }
 
-/* Responsive */
+@keyframes spinPhoto {
+  0% { transform: scale(1.35) rotate(0deg); }
+  100% { transform: scale(1.35) rotate(360deg); }
+}
+
+/* 📱 Responsive Adjustments */
 @media (max-width: 768px) {
   .photo-frame img {
     max-width: 180px;
