@@ -23,8 +23,7 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "rgba(255, 204, 0, 0.6)";
   ctx.beginPath();
-  for (let i = 0; i < flowers.length; i++) {
-    const f = flowers[i];
+  for (let f of flowers) {
     ctx.moveTo(f.x, f.y);
     ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
   }
@@ -33,16 +32,17 @@ function draw() {
 }
 
 function update() {
-  for (let i = 0; i < flowers.length; i++) {
-    const f = flowers[i];
+  for (let f of flowers) {
     f.y += f.d;
     if (f.y > canvas.height) {
-      flowers[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
+      f.y = 0;
+      f.x = Math.random() * canvas.width;
     }
   }
 }
 setInterval(draw, 30);
-// 🎶 Music Button Play/Pause Logic
+
+// 🎵 Music Play Button Logic
 const music = document.getElementById('bg-music');
 const btn = document.getElementById('music-btn');
 let isPlaying = false;
@@ -59,3 +59,28 @@ btn.addEventListener('click', () => {
     btn.textContent = "🔊 Play Music";
   }
 });
+
+// 🌸 Mobile Tap Zoom + Cinematic Blur Effect
+const photo = document.getElementById('photo');
+const overlay = document.getElementById('photo-overlay');
+let isZoomed = false;
+
+// Works for both desktop (click) and mobile (touch)
+photo.addEventListener('click', () => {
+  isZoomed = !isZoomed;
+  if (isZoomed) {
+    photo.classList.add('active');
+    overlay.classList.add('active');
+  } else {
+    photo.classList.remove('active');
+    overlay.classList.remove('active');
+  }
+});
+
+// Close zoom if background is tapped
+overlay.addEventListener('click', () => {
+  photo.classList.remove('active');
+  overlay.classList.remove('active');
+  isZoomed = false;
+});
+
